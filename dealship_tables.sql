@@ -15,12 +15,14 @@ create table sales_person (
 	car_sold VARCHAR(100)
 );
 
+
 create table car_inventory (
 	inventory_id SERIAL primary key,
 	car_name VARCHAR(100),
 	car_year VARCHAR(100),
 	car_price numeric(10,2)
 );
+
 
 create table invoice (
 	invoice_id SERIAL primary key,

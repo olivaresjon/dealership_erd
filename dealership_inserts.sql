@@ -14,31 +14,33 @@ insert into customer(
 	'2020 Kia Sportage'
 );
 
-insert into sales_person(
-	salesperson_id,
-	sales_person,
-	start_date,
-	phone,
-	car_sold
-) values (
-	1,
-	'CJ',
-	'2019-09-05',
-	0987654321,
-	'Toyota Camry'
-);
+create or replace function add_sales_person(_sales_person_id INTEGER, _sales_person VARCHAR, _state_date DATE, _phone VARCHAR, _car_sold VARCHAR)
+returns void
+as $MAIN$
+begin
+	insert into sales_person(salesperson_id ,sales_person ,start_date , phone, car_sold)
+	values (_sales_person_id, _sales_person, _state_date, _phone, _car_sold);
+end;
+$MAIN$
+language plpgsql;
 
-insert into car_inventory(
-	inventory_id,
-	car_name,
-	car_year,
-	car_price
-) values (
-	1,
-	'Dogde Charger',
-	'2018-05-15',
-	22000.00	
-);
+select add_sales_person(2,'CJ','2020-10-01','1234567892','Toyota');
+
+select * from sales_person;
+
+create or replace function add_car_inventory(_inventory_id INTEGER, _car_name VARCHAR, _car_year DATE, _car_price numeric)
+returns void
+as $MAIN$
+begin
+	insert into car_inventory(inventory_id, car_name, car_year, car_price)
+	values (_inventory_id , _car_name , _car_year , _car_price);
+end;
+$MAIN$
+language plpgsql;
+
+select add_car_inventory(1,'Toyota','2015-02-18',17000.00);
+
+select * from car_inventory ci;
 
 insert into invoice (
 	invoice_id,
@@ -55,11 +57,11 @@ insert into invoice (
 	'Jonathan',
 	'Olivares',
 	'2021-10-1',
-	32000.00,
+	20000.00,
 	1,
+	2,
 	1,
-	1,
-	'Dodge Charger'
+	'Toyota Camry'
 );
 
 insert into service_records (
@@ -72,8 +74,8 @@ insert into service_records (
 	mechanic_name
 ) values (
 	1,
-	'Juan',
-	'Rodriguez',
+	'Jonathan',
+	'Olivares',
 	'2021-11-21',
 	11.99,
 	'coolant hose',
@@ -93,7 +95,7 @@ insert into service_ticket (
 	'Oil Leak',
 	'Jon',
 	'1352-696-9696',
-	'Mazda Miata',
+	'Camry',
 	1,
 	1
 );
@@ -119,6 +121,6 @@ insert into mechanic (
 ) values (
 	1,
 	1321321123,
-	'Jack Mack',
+	'Jack Harmanson',
 	1
 );
